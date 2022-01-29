@@ -65,7 +65,6 @@ mysqli_close($conn);
     </div>
   </section>
 
-
   <section class="Menu py-5" style="background-color: #421374f0">
     <h1 class="text-warning text-center my-5">Menu</h1>
     <form action="facture.php" method="post">
@@ -73,18 +72,16 @@ mysqli_close($conn);
         <hr>
 
         <div class="row d-flex justify-content-center align-items-center">
-          <?php foreach ($menu as $plat) : ?>
+          <?php foreach ($menu as $plat) { ?>
             <!--Parcourir le tableau des plats-->
             <div class="col-3 d-flex flex-column justify-content-center align-items-center m-3" style="border: 1px solid yellow; border-radius: 20px;">
               <h2 class="text-warning text-center"><?php echo $plat['nom']; ?></h2>
               <div class="d-flex justify-content-center align-items-center">
-                <span class="text-warning text-center mx-2" style="font-size: 20px;"><strong><?php echo $plat['prix']; ?>$</strong></span>
-                <form action="facture.php" method="post">
-                  <input type="checkbox" name="prix[]" value="<? echo $plat['prix'] ?>" id="">
-                </form>
+                <span class="text-warning text-center mx-2" style="font-size: 20px;"><strong><?= $plat['prix']; ?>$</strong></span>
+                <input type="checkbox" name="prix[]" value="<?= $plat['prix'] ?>" id="">
               </div>
             </div>
-          <?php endforeach; ?>
+          <?php } ?>
         </div>
 
         <div class="text-center">
