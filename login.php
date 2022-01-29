@@ -1,3 +1,41 @@
+<?php
+
+require('web_connect/config.php');
+
+
+$error = false; // Permet de savoir si le login/mot de passe est invalide
+
+// 1ere etape: on verifie si l'utilisateur a envoyé les données avec la methode isset
+if(isset($_POST['username'])) {
+    // On récupères les données de l'utilisateur
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // On verifie dans la base s'il ya une correspondance username/password avec les données de l'utilisateur
+    $query = "SELECT * FROM utilisateur WHERE Nom = '$username' AND Mot_Passe = '$password'";
+
+    //GET Results
+    $result = mysqli_query($conn, $query);
+
+    //Fetch Data
+    $user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    //Free Result
+    mysqli_free_result($result);
+
+    //Close Connection
+    mysqli_close($conn);
+
+    // Ici si user=null cela veut dire qu'il ya pas de correspondance donc le login ou le mot de passe est invalide.
+    if($user != null) {
+        echo 'Bienvenu ' . $username;
+    } else {
+        $error = true;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +52,11 @@
                 <div class="login-form bg-light mt-4 p-4">
                     <form action="" method="post" class="row g-3">
                         <h4>Welcome :)</h4>
+                        <?php
+                            if($error == true): ?>
+                                <p class="alert alert-danger">Login ou mot de passe incorrecte</p>
+                            <?php endif;
+                        ?>
                         <div class="col-12">
                             <label>Username</label>
                             <input type="text" name="username" class="form-control" placeholder="Username">
